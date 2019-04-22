@@ -1,0 +1,71 @@
+body {
+    background-color: #23132e!important;
+}
+
+.index, .fc__msg_form{
+	background-color: #23132e!important;
+	color: #fff!important;
+}
+
+.fc__head{
+	background-color: #4f3461!important;
+}
+
+.fc__head_active {
+    color: #fff!important;
+}
+
+.fc__body,.mychat__body,.fc__body_msg{
+	background-color: #2f1640!important;
+}
+
+footer{
+	background-color: #23132e!important;
+}
+
+.fc__head_bar{
+	background-color: #4f3461!important;
+    border-bottom: 1px solid #7d5d93!important;
+}
+
+.fc__edit_profile_save_wrap {
+    background-color: #23132e!important;
+}
+
+.fc__edit_profile_round {
+    background-color: #734e8c!important;
+}
+
+.fc__edit_profile_name, .fc__edit_profile_bio {
+    background-color: rgb(67, 44, 83);
+    color: #d4bce5;
+}
+
+.mychat_messages_wrap{
+	color:#fff!important;
+	border-bottom: 1px solid #4f3461!important;
+}
+
+.fc__msg_text{
+	    border: 1px solid #624676!important;
+    background-color: rgb(58, 39, 70)!important;
+    color: #fff!important;
+}
+
+.bgreply-1{
+	    background-color: #815a23!important;
+}
+
+.bgreply-2 {
+    background-color: #3d5e3f!important;
+}
+.bgreply-3 {
+    background-color: #415f62!important;
+}
+.bgreply-4 {
+    background-color: #565f71!important;
+}
+
+.bgreply-5 {
+    background-color: #6e5a7f!important;
+}

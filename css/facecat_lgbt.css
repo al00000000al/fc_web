@@ -1,0 +1,36 @@
+body {
+    background-image: linear-gradient( var(--g-red) 0%, var(--g-red) 16.6666%, var(--g-orange) 16.6666%, var(--g-orange) 33.333%, var(--g-yellow) 33.333%, var(--g-yellow) 50%, var(--g-green) 50%, var(--g-green) 66.6666%, var(--g-blue) 66.6666%, var(--g-blue) 83.3333%, var(--g-indigo) 83.3333%, var(--g-indigo) 100% )!important;
+    background-attachment: fixed!important;
+	background-size: contain!important;
+	}
+	
+	.fc__msg_form {
+    border-radius: 5px!important;
+    background-color: #ffffff63!important;
+}
+
+.fc__body_msg{
+	    background-color: #ffffffd1!important;
+}
+
+.mychat__body {
+    background-color: #f0f8ffb8!important;
+    padding-left: 10px!important;
+    padding-right: 10px!important;
+}
+
+.fc__head{
+	background-color: #ffffffe3!important;
+}
+
+.profile_wrap, .fc__edit_wrap {
+    background-color: #f0f8ff8f!important;
+}
+
+.fc__head_bar {
+    background-color: #fff!important;
+}
+
+.fc__body{
+	background-color: #fff3!important;
+}

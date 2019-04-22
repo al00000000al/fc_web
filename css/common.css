@@ -1,0 +1,902 @@
+@import url("https://fonts.googleapis.com/css?family=Vollkorn");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+fieldset,
+img,
+abbr {
+  border: 0;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+  font-style: normal;
+  font-weight: normal;
+}
+
+ul li {
+  list-style: none;
+}
+
+caption,
+th {
+  text-align: left;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  /*   font-weight: normal;*/
+}
+
+sup {
+  vertical-align: text-top;
+}
+
+sub {
+  vertical-align: text-bottom;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+legend {
+  color: #000;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+main {
+  display: block;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+* {
+  margin: 0 auto;
+}
+
+i,
+cite,
+em,
+var,
+address,
+dfn {
+  font-style: italic;
+}
+
+/* Remove outline on the forms and links */
+
+:active,
+:hover,
+:focus {
+  outline: 0;
+  outline-offset: 0;
+}
+
+body {
+  background-color: #e55f3e;
+}
+
+.header {
+  font-family: 'Vollkorn', serif;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  height: 50px;
+}
+
+.page__main {
+  padding-top: 50px;
+}
+
+.page_block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  text-align: left;
+  padding: 15px 30px;
+  margin-bottom: 40px;
+  background-color: #ffffff;
+  border: 1px solid #f2aa9894;
+  border-radius: 4px;
+}
+
+.page_block_h2 {
+  color: #972306;
+  font-size: 1em;
+  line-height: 2;
+}
+
+.page_block_header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: -30px;
+  margin-right: -30px;
+  margin-top: -15px;
+  margin-bottom: 15px;
+  padding: 20px 30px;
+  background-color: #ffede5;
+  border-bottom: 1px solid #ffd5d3;
+  border-radius: 4px 4px 0px 0px;
+}
+
+.page_cont {
+  border-top: 1px solid #f7cec38a;
+  border-bottom: 1px solid #f7cec38a;
+  margin-top: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  font-size: 1em;
+  min-width: 600px;
+}
+
+@media (max-width: 480px) {
+  .page_cont {
+    min-width: 0px;
+    text-align: center;
+  }
+}
+
+.ui_search {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 35px;
+  padding-bottom: 15px;
+}
+
+.ui_search__input {
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #97363c;
+  border: 1px solid #f3beb0;
+  width: 100%;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.ui_search__btn {
+  padding: 5px 20px !important;
+  min-width: 20px;
+  border-radius: 0px 5px 5px 0px !important;
+  background-color: #ffd9c4 !important;
+  border: 1px solid #f3beb0 !important;
+  border-left: 0px !important;
+  background-image: url("../../images/icons/search.png");
+  background-size: 30%;
+  background-repeat: no-repeat;
+  background-position: 30% center;
+}
+
+.ui_search__btn:hover {
+  background-color: #ffcaad !important;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+input:-webkit-autofill {
+  color: #ffffff !important;
+}
+
+.browserupgrade {
+  color: #fff;
+}
+.index {
+  height: calc(100vh - 50px);
+  font-family: 'Montserrat', sans-serif;
+  margin: 0 auto;
+  text-align: center;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.index__header {
+  font-size: 2.5em;
+  font-style: italic;
+  color: #ffe4d7;
+  padding-top: 50px;
+}
+
+.index__text {
+  margin: 0 auto;
+  margin-top: 40px;
+  font-size: 1rem;
+  padding: 50px 20px;
+  text-align: left;
+  text-indent: 40px;
+  width: 60%;
+  margin-left: 20%;
+}
+
+.index__footer {
+  bottom: -10%;
+  position: relative;
+  margin-left: 50%;
+}
+
+.index_about {
+  /*background-image: url("../../../../images/index_about.jpg");*/
+  background-color: #e55f3e;
+}
+
+.index_about__header {
+  margin-top: 100px;
+}
+
+.index_about__text {
+  font-size: 1.3em;
+  background-color: #ffccc03b;
+  color: #ffffff;
+  /*color: $header_descr_text;*/
+}
+
+.index_about__footer {
+  margin-left: 0;
+}
+
+.index_ny2019 {
+  background-image: url("../images/bg2019.jpg");
+  background-color: #b09687;
+}
+
+.index_ny2019__header {
+  font-size: 4em;
+  font-style: italic;
+  font-weight: bold;
+  color: #fde4d7;
+  text-shadow: 3px 3px 1px #e55f3e;
+  -webkit-box-shadow: 1px;
+  box-shadow: 1px;
+  padding-top: 10%;
+}
+
+.index_ny2019__text {
+  font-size: 1.3em;
+  background-color: #ffccc0a8;
+  color: #5b1200;
+}
+
+.index_1aprelya {
+  background-image: url("../images/a_ya_i_ne_zabil_pro_pervoe_aprelya__italiyanski_sir_i_salo.jpg");
+  background-color: #b09687;
+}
+
+.index_1aprelya__header {
+  font-size: 4em;
+  font-style: italic;
+  font-weight: bold;
+  color: #fde4d7;
+  text-shadow: 3px 3px 1px #e55f3e;
+  -webkit-box-shadow: 1px;
+  box-shadow: 1px;
+  padding-top: 10%;
+}
+
+.index_1aprelya__text {
+  font-size: 1.3em;
+  background-color: #ffccc0a8;
+  color: #5b1200;
+}
+.arrow {
+  width: 0px;
+  height: 0px;
+  border: 40px solid #a11d1d00;
+  border-top-color: #ffe4d763;
+  margin: 0;
+  padding: 0;
+  float: left;
+  margin-left: 50%;
+}
+
+.arrow:before {
+  content: '';
+  width: 0px;
+  height: 0px;
+  border: 30px solid transparent;
+  border-top-color: transparent;
+  display: inline-block;
+  -webkit-transform: translate(-30px, -50px);
+}
+
+.arrow:hover {
+  border-top-color: #ffe4d7;
+}
+
+.arrow_left {
+  -webkit-transform: rotate(90deg) translate(0px, 25px);
+  transform: rotate(90deg) translate(0px, 25px);
+}
+
+.arrow_down {
+  -webkit-transform: rotate(0deg) translate(0px, 25px);
+  transform: rotate(0deg) translate(0px, 25px);
+}
+
+.arrow_up {
+  -webkit-transform: rotate(180deg) translate(0px, 25px);
+  transform: rotate(180deg) translate(0px, 25px);
+}
+
+.arrow_right {
+  -webkit-transform: rotate(270deg) translate(0px, 25px);
+  transform: rotate(270deg) translate(0px, 25px);
+}
+
+.arrow_ny2019 {
+  border-top-color: #e55f3e;
+}
+
+.arrow_ny2019:hover {
+  border-top-color: #fd9981;
+}
+.button {
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  background-color: #eb785c;
+  padding: 8px 50px;
+  border-radius: 5px;
+  border: 1px solid #ed8b73;
+  cursor: pointer;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.button:hover {
+  background-color: #ed8b73;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.button_translate {
+  margin-bottom: 10px;
+  min-width: 100px;
+  background-color: #6a6078;
+  border: 1px solid #a7879f;
+}
+
+.button_translate:hover {
+  background-color: #9d8095;
+}
+
+.button--small {
+  padding: 5px 7px;
+  min-width: 100px;
+}
+.footer {
+  background-color: #e55f3e;
+}
+
+.footer__text {
+  text-align: center;
+  color: #fff;
+}
+.modal {
+  display: block;
+  position: fixed;
+  width: 500px;
+  height: 200px;
+  top: 30%;
+  left: 35%;
+}
+
+.modal__content {
+  border: 1px solid #f7cec3;
+  border-radius: 4px;
+}
+
+.modal__header {
+  height: 50px;
+  color: #ffe4d7;
+  background-color: #e55f3e;
+  padding-top: 10px;
+  padding-left: 20px;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.modal__header--h2 {
+  margin-top: 5px;
+}
+
+.modal__close {
+  float: right;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.3em;
+  cursor: pointer;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+
+.modal__close:hover {
+  font-size: 1.4em;
+  color: #f3ac9a;
+}
+
+.modal__body {
+  min-height: 150px;
+  background-color: #fff5e0;
+  color: #381209;
+  font-size: 1.2em;
+  padding-left: 10px;
+}
+/* START TOOLTIP STYLES */
+
+[tooltip] {
+  /* position: relative; */
+  /* opinion 1 */
+}
+
+/* Applies to all tooltips */
+
+[tooltip]::before,
+[tooltip]::after {
+  text-transform: none;
+  /* opinion 2 */
+  font-size: .7rem;
+  /* opinion 3 */
+  line-height: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  display: none;
+  opacity: 0;
+}
+
+[tooltip]::before {
+  content: '';
+  border: 5px solid transparent;
+  /* opinion 4 */
+  z-index: 1001;
+  /* absurdity 1 */
+}
+
+[tooltip]::after {
+  content: attr(tooltip);
+  /* magic! */
+  /* most of the rest of this is opinion */
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+  /* 
+    Let the content set the size of the tooltips 
+    but this will also keep them from being obnoxious
+    */
+  min-width: 3em;
+  max-width: 21em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1ch 1.5ch;
+  border-radius: .3ch;
+  -webkit-box-shadow: 0 1em 2em -0.5em rgba(0, 0, 0, 0.35);
+  box-shadow: 0 1em 2em -0.5em rgba(0, 0, 0, 0.35);
+  background: #333;
+  color: #fff;
+  z-index: 1000;
+  /* absurdity 2 */
+}
+
+/* Make the tooltips respond to hover */
+
+[tooltip]:hover::before,
+[tooltip]:hover::after {
+  display: block;
+}
+
+/* don't show empty tooltips */
+
+[tooltip='']::before,
+[tooltip='']::after {
+  display: none !important;
+}
+
+/* FLOW: UP */
+
+[tooltip]:not([flow])::before,
+[tooltip][flow^="up"]::before {
+  bottom: 100%;
+  border-bottom-width: 0;
+  border-top-color: #333;
+}
+
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::after {
+  bottom: calc(100% + 5px);
+}
+
+[tooltip]:not([flow])::before,
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::before,
+[tooltip][flow^="up"]::after {
+  left: 50%;
+  -webkit-transform: translate(-50%, -0.5em);
+  transform: translate(-50%, -0.5em);
+}
+
+/* FLOW: DOWN */
+
+[tooltip][flow^="down"]::before {
+  top: 100%;
+  border-top-width: 0;
+  border-bottom-color: #333;
+}
+
+[tooltip][flow^="down"]::after {
+  top: calc(100% + 5px);
+}
+
+[tooltip][flow^="down"]::before,
+[tooltip][flow^="down"]::after {
+  left: 50%;
+  -webkit-transform: translate(-50%, 0.5em);
+  transform: translate(-50%, 0.5em);
+}
+
+/* FLOW: LEFT */
+
+[tooltip][flow^="left"]::before {
+  top: 50%;
+  border-right-width: 0;
+  border-left-color: #333;
+  left: calc(0em - 5px);
+  -webkit-transform: translate(-0.5em, -50%);
+  transform: translate(-0.5em, -50%);
+}
+
+[tooltip][flow^="left"]::after {
+  top: 50%;
+  right: calc(100% + 5px);
+  -webkit-transform: translate(-0.5em, -50%);
+  transform: translate(-0.5em, -50%);
+}
+
+/* FLOW: RIGHT */
+
+[tooltip][flow^="right"]::before {
+  top: 50%;
+  border-left-width: 0;
+  border-right-color: #333;
+  right: calc(0em - 5px);
+  -webkit-transform: translate(0.5em, -50%);
+  transform: translate(0.5em, -50%);
+}
+
+[tooltip][flow^="right"]::after {
+  top: 50%;
+  left: calc(100% + 5px);
+  -webkit-transform: translate(0.5em, -50%);
+  transform: translate(0.5em, -50%);
+}
+
+/* KEYFRAMES */
+
+@-webkit-keyframes tooltips-vert {
+  to {
+    opacity: .9;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes tooltips-vert {
+  to {
+    opacity: .9;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+  }
+}
+
+@-webkit-keyframes tooltips-horz {
+  to {
+    opacity: .9;
+    -webkit-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+  }
+}
+
+@keyframes tooltips-horz {
+  to {
+    opacity: .9;
+    -webkit-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+  }
+}
+
+/* FX All The Things */
+
+[tooltip]:not([flow]):hover::before,
+[tooltip]:not([flow]):hover::after,
+[tooltip][flow^="up"]:hover::before,
+[tooltip][flow^="up"]:hover::after,
+[tooltip][flow^="down"]:hover::before,
+[tooltip][flow^="down"]:hover::after {
+  -webkit-animation: tooltips-vert 300ms ease-out forwards;
+  animation: tooltips-vert 300ms ease-out forwards;
+}
+
+[tooltip][flow^="left"]:hover::before,
+[tooltip][flow^="left"]:hover::after,
+[tooltip][flow^="right"]:hover::before,
+[tooltip][flow^="right"]:hover::after {
+  -webkit-animation: tooltips-horz 300ms ease-out forwards;
+  animation: tooltips-horz 300ms ease-out forwards;
+}
+/* The container */
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #ffe2d2;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+
+.container:hover input ~ .checkmark {
+  background-color: #fbcdb5;
+}
+
+/* When the radio button is checked, add a blue background */
+
+.container input:checked ~ .checkmark {
+  background-color: #e55f3e;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+
+.container .checkmark:after {
+  top: 5px;
+  left: 5px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ff977d;
+}
+.menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-left: -15px;
+  margin-right: -15px;
+  list-style: none;
+  height: 50px;
+  margin-left: 0;
+  margin-right: 0;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 0px;
+}
+
+.menu_nav {
+  background-color: #e55f3e;
+  padding-left: 25%;
+}
+
+@media (max-width: 480px) {
+  .menu_nav {
+    background-color: #e55f3e;
+    padding-left: 0;
+    margin-left: -30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu_nav {
+    padding-left: 0px;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu_nav li:not(:nth-child(1)) {
+    display: none;
+  }
+}
+
+.menu_login {
+  float: right;
+  position: relative;
+  top: -50px;
+  margin-right: 30px;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 480px) {
+  .menu_login {
+    margin-right: 0px;
+  }
+}
+
+.menu__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-left: 1px;
+  margin-right: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 50px;
+  background-color: #e55f3e;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.menu__item:hover {
+  background-color: #f57c5f;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+@media screen and (max-width: 560px) {
+  .menu__item {
+    width: calc(58.33333% - 30px);
+  }
+}
+
+.menu__item_main {
+  background-color: #f88264;
+  float: right;
+}
+
+.menu__item_active {
+  background-color: #fbdb94;
+}
+
+.menu__item_active:hover {
+  background-color: #fffaefad;
+}
+
+.menu__link {
+  text-decoration: none;
+  color: #ffe4d7;
+  height: 50px;
+  margin-top: 12.5px;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.menu__link:hover {
+  color: #ffb6b6;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.menu__link_active {
+  color: #e55f3e;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.menu__link_active:hover {
+  color: #a53e25;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.menu_arr {
+  text-decoration: none;
+  color: #ffe4d7;
+  cursor: pointer;
+}
