@@ -12,6 +12,5 @@
  
  // вывод главной страницы
  function a_index_(){
-
 	 wrapRedirect('/fc');
  }
