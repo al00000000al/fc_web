@@ -1,5 +1,5 @@
 <?php
-
+/* Я скачал это с гитхаба */
 /**
  *
  * @var string|null $__custom_secret
