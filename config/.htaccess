@@ -1,0 +1,6 @@
+<FilesMatch "(?<!config)$">
+  ErrorDocument 404 /err404.html
+</FilesMatch>
+
+ErrorDocument 404 /err404.html
+RedirectMatch 404 ^/config/.*$
