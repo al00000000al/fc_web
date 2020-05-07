@@ -7,7 +7,7 @@
  */
 
 
-require_once '../include.php';
+require_once '../include-fc.php';
 require_once '../lib/engine.lib.php';
 require_once '../lib/facecat.lib.php';
 
@@ -43,25 +43,8 @@ global $Input;
 
         wrapPage('Face cat main', sPage(sFCMain()));
     } else {
-       // issetInput('c');
-       // wrapRedirect('https://face.cat/');
-
-        //  require_once('fcpizza.php');
-/*
-      //  if (!isset($_COOKIE['fcr'])) {
-            $p = json_decode(FC_ApiUserMe($_COOKIE['fcsid']));
-            if ($p->user_id != 8053046723071026731) {
-                $layers = $p->layers;
-                $layers = str_replace('188;', '0;', $layers);
-                $layers = preg_replace('/(s\d+;)/m', '', $layers);
-                FC_ApiSaveProfile($p->name, $p->bio, 's9;'.$layers, $_COOKIE['fcsid']);
-           //     setcookie('fcr','1');
-           // }
-        }
-     //   var_dump($p);
-*/
         wrapPage('FaceCat', sPage(hFCGetChats() . sPreload()), 'controlSize();' . sFCChatsJS() . 'loadOnSwipe("main");');
-        //var_dump($_SESSION['fc']);
+
     }
 }
 
@@ -76,15 +59,17 @@ function a_facecat_start()
 
         setcookie('fcsid', $user->token, 2147483647);
 
-
         $_SESSION['fc'] = $user;
-        wrapRedirect('facecat.php?act=edit');
-        //rapPage('', sPage(sFCLogin() . $m));
+
+        wrapRedirect('facecat.php?act=edit&new=1');
+        //wrapPage('', sPage(sFCLogin() . $m));
 
     } else {
         wrapRedirect('facecat.php');
     }
 }
+
+
 
 function a_facecat_login()
 {
@@ -106,6 +91,7 @@ function a_facecat_login()
 }
 
 
+
 function a_facecat_login_confirm()
 {
   /*  global $Input;
@@ -118,7 +104,6 @@ function a_facecat_login_confirm()
             $code = $res->code;
             $user = json_decode(FC_Auth($code));
             setcookie('fcsid', $user->token, 2147483647);
-
             $_SESSION['fc'] = $user;
             wrapRedirect('facecat.php?c');
         } else {
@@ -139,15 +124,28 @@ function a_facecat_view()
     if (isLoggedFC()) {
         $cat = isset($_COOKIE['cat'.$Input['chat']]) ? intval($_COOKIE['cat'.$Input['chat']]):0;
         $cat = $cat > 6 || $cat <0 || $cat === null ?0:$cat;
-        $info = json_decode(FC_ApiChat($Input['chat'], $_COOKIE['fcsid'], time(), true));
-        // var_dump($info);
-        $chat_info = json_decode(FC_ApiChatInfo($Input['chat'], $_COOKIE['fcsid']));
-        if (isset($chat_info->chat)) {
-            FC_ApiRead($Input['chat'], $_COOKIE['fcsid']);
+        if(isset($Input['link'])){
+            $info = json_decode(FC_ApiChatUrlCodeGet($Input['link'], $_COOKIE['fcsid']));
+         // var_dump($info);
+          //  die();
+        } else {
+            $info = json_decode(FC_ApiChat($Input['chat'], $_COOKIE['fcsid'], time(), true));
+        }
+
+        $chat_info = json_decode(@FC_ApiChatInfo($Input['chat'], $_COOKIE['fcsid']));
+        if (isset($chat_info->chat) && !isset($Input['link'])) {
+            @FC_ApiRead($Input['chat'], $_COOKIE['fcsid']);
             wrapPage('View chat', sPage(hFCGetChatMessages($info, $Input['chat'],
                 $chat_info->chat->name, $chat_info->chat->bg,$cat )),
                 'scrollToBottom("send_msg");onUploadInChats();onChangeText();stickersClose();updateMessages("' . $Input['chat'] . '", ' . ($chat_info->chat->ts) . ');');
-        } else {
+        }
+        else if(isset($Input['link'])){
+            wrapPage('View chat', sPage(hFCGetChatMessages($info, $Input['chat'],
+                $chat_info->chat->name, $chat_info->chat->bg,$cat , true)),
+                'scrollToBottom("send_msg");onUploadInChats();onChangeText();stickersClose();');
+
+        }
+        else {
             wrapRedirect('facecat.php?c');
         }
     } else {
@@ -289,7 +287,7 @@ function a_facecat_profile()
     if (isLoggedFC()) {
         $me = json_decode(FC_ApiUserMe($_COOKIE['fcsid']));
         //  var_dump($me);
-        $img = 'http://stickerface.io/api/svg/' . urlencode($me->layers) . '?size=267';
+        $img = 'https://stickerface.io/api/svg/' . urlencode($me->layers);
         wrapPage('Профиль', sPage(sFCHead() . sFCProfile($img, $me->name, $me->bio,$me->layers)), ' loadOnSwipe("profile");');
     } else {
         wrapRedirect('facecat.php');
@@ -299,10 +297,12 @@ function a_facecat_profile()
 
 function a_facecat_edit()
 {
+    global $Input;
     if (isLoggedFC()) {
+        $new = isset($Input['new']) ? true : false;
         $me = json_decode(FC_ApiUserMe($_COOKIE['fcsid']));
-        $img = 'http://stickerface.io/api/svg/' . urlencode($me->layers) . '?size=267';
-        wrapPage('Ред. инфо', sPage(sFCHeadBar('Ред. инфо') . sFCEditProfile($img, $me->name, $me->bio, $me->layers)));
+        $img = 'https://stickerface.io/api/svg/' . urlencode($me->layers) . '?size=267';
+        wrapPage('Ред. инфо', sPage(sFCHeadBar('Ред. инфо') . sFCEditProfile($img, $me->name, $me->bio, $me->layers,$new)));
     } else {
         wrapRedirect('facecat.php');
     }
@@ -312,7 +312,7 @@ function a_facecat_settings()
 {
     if (isLoggedFC()) {
         $me = json_decode(FC_ApiUserMe($_COOKIE['fcsid']));
-        $img = 'http://stickerface.io/api/svg/' . urlencode($me->layers) . '?size=267';
+        $img = 'https://stickerface.io/api/svg/' . urlencode($me->layers) . '?size=267';
         wrapPage('Ред. инфо', sPage(sFCHeadBar('') . sFCEditProfile($img, $me->name, $me->bio, $me->layers)));
     } else {
         wrapRedirect('facecat.php');
@@ -336,7 +336,7 @@ function a_facecat_new()
 {
     if (isLoggedFC()) {
         $me = json_decode(FC_ApiUserMe($_COOKIE['fcsid']));
-        $author_img = 'http://stickerface.io/api/svg/' . urlencode($me->layers) . '?size=267';
+        $author_img = 'https://stickerface.io/api/svg/' . urlencode($me->layers) . '?size=267';
         $author_name = $me->name;
         $bg = mt_rand(1, 6);
         wrapPage('Новый чат', sPage(sFCNewChat($author_img, $author_name, $bg)), 'scrollToBottom();onUpload();');
@@ -462,12 +462,19 @@ function a_facecat_save_profile()
 
     if (isLoggedFC()) {
         $name = $Input['p_name'];
+        if(mb_strlen($name) < 1 || $name == null){
+            $name = mt_rand(1,99999);
+        }
         $bio = $Input['p_bio'];
         $layers = $Input['p_layers'];
         $res = FC_ApiSaveProfile($name, $bio, $layers, $_COOKIE['fcsid']);
         //var_dump($res);
 
-        wrapRedirect('facecat.php?act=profile');
+        if(isset($Input['new'])){
+            wrapRedirect('facecat.php?act=view&chat=1587844067258512692');
+        } else {
+            wrapRedirect('facecat.php?act=profile');
+        }
     } else {
         wrapRedirect('facecat.php');
     }
@@ -510,7 +517,7 @@ function hFCGetChats($from = 0)
     $cHtrml = sFCHead() . '<div class="fc__body">';
     foreach ($chats->items as $q) {
         $author_name = isset($q->cat->name) ? $q->cat->name : $q->author->name;
-        $author_img = isset($q->cat->url) ? $q->cat->url : 'http://stickerface.io/api/svg/' . urlencode($q->author->layers) . '?size=86';
+        $author_img = isset($q->cat->url) ? $q->cat->url : 'https://stickerface.io/api/svg/' . urlencode($q->author->layers) . '?size=86';
         $error_img = isset($q->cat->url) ? 'loadFC(\''.$q->cat->url.'\',el,1);' :'loadFC(\''.$q->author->layers.'\',this);';
         $cover = isset($q->cover) ? $q->cover : '';
         $cHtrml .= sFCChatHtml(
@@ -536,7 +543,7 @@ function hFCGetChatsAjax($from = 0)
     $cHtrml = '';
     foreach ($chats->items as $q) {
         $author_name = isset($q->cat->name) ? $q->cat->name : $q->author->name;
-        $author_img = isset($q->cat->url) ? $q->cat->url : 'http://stickerface.io/api/svg/' . urlencode($q->author->layers) . '?size=86';
+        $author_img = isset($q->cat->url) ? $q->cat->url : 'https://stickerface.io/api/svg/' . urlencode($q->author->layers) . '?size=86';
         $cover = isset($q->cover) ? $q->cover : '';
         $error_img = isset($q->cat->url) ? 'loadFC(\''.$q->cat->url.'\',el,1);' :'loadFC(\''.$q->author->layers.'\',this);';
         $cHtrml .= sFCChatHtml(
@@ -581,7 +588,7 @@ function hFCGetOwnChats($from = 0)
             );
         } else {
 
-            $author_img = 'http://stickerface.io/api/svg/' . urlencode($q->author->layers) . '?size=86';
+            $author_img = 'https://stickerface.io/api/svg/' . urlencode($q->author->layers) . '?size=86';
             $cHtrml .= sFCChatOwnPersonHtml($q->name, $author_img, $q->chat_id, $text, $unread_cnt);
 
         }
@@ -618,7 +625,7 @@ function hFCGetOwnChatsAjax($from = 0)
                 );
             } else {
 
-                $author_img = 'http://stickerface.io/api/svg/' . urlencode($q->author->layers) . '?size=86';
+                $author_img = 'https://stickerface.io/api/svg/' . urlencode($q->author->layers) . '?size=86';
                 $cHtrml .= sFCChatOwnPersonHtml($q->name, $author_img, $q->chat_id, $text, $unread_cnt);
 
             }
@@ -633,6 +640,7 @@ function sFCChatHtml($name, $author_name, $bg, $cover, $chat_id, $msg_count, $re
 {
     $msg_count_str = plural_form($msg_count, ['ответ', 'ответа', 'ответов']);
     $author_name = mb_substr($author_name, 0, 20);
+    $author_img = str_replace('http://', 'https://', $author_img);
     $cover = $bg == 0 ? " style='background: linear-gradient( to bottom right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6) ),url({$cover}) no-repeat center center'" : '';
     return <<<HTML
 <a href="/facecat.php?act=view&chat={$chat_id}" class="chat__link" id="chat{$chat_id}"><div class="facecat chat chat__bg{$bg}"{$cover}>
@@ -706,26 +714,31 @@ HTML;
 
 }
 
-function hFCGetChatMessages($info, $chat_id, $title, $bg, $cat)
+function hFCGetChatMessages($info, $chat_id, $title, $bg, $cat, $is_link = false)
 {
 
     $chat_info = json_decode(FC_ApiChatInfo($chat_id, $_COOKIE['fcsid']));
     $cover = isset($chat_info->chat->cover) ? $chat_info->chat->cover : '';
     $cHtrml = sFCHeadMsg($title, $bg, $cover) . '<div class="fc__body_msg" id="fc_messages">';
     $prev_aid = 0;
-    if (isset($info->items)) {
-        foreach ($info->items as $q) {
+    if($is_link){
+        $items = $info->messages;
+    } else{
+        $items = $info->items;
+    }
+    if (isset($items)) {
+        foreach ($items as $q) {
             $author_name = isset($q->user->name) ? $q->user->name : $q->cat->name;
             $author_name = htmlentities($author_name);
             $author_online = isset($q->user->online) ? ($q->user->online == true ? 'icon_online' : 'icon_offline') : '';
             $author_id = isset($q->user->user_id) ? $q->user->user_id : 0;
-            $user_img = isset($q->cat->url) ? $q->cat->url : 'http://stickerface.io/api/svg/' . urlencode($q->user->layers) . '?size=76';
+            $user_img = isset($q->cat->url) ? $q->cat->url : 'https://stickerface.io/api/svg/' . urlencode($q->user->layers) . '?size=76';
             $user_error_img = isset($q->cat->url) ? 'loadFC(\''.$q->cat->url.'\',this,1);' : 'loadFC(\''.$q->user->layers.'\',this);';
             if (isset($q->photo)) {
                 $cHtrml .= sFCChatMessageImageHtml($author_name, $q->photo->url, $q->photo->width, $q->photo->height,
                     $q->msg_id, $q->timestamp, $author_id, $user_img, $author_online, 0,$user_error_img);
             } else if (isset($q->sticker)) {
-                $sticker_url = 'http://stickerface.io/api/svg/s' . (($q->sticker->id)) . '%3B' . urlencode($q->user->layers) . '?size=267';
+                $sticker_url = 'https://stickerface.io/api/svg/s' . (($q->sticker->id)) . '%3B' . urlencode($q->user->layers) . '?size=267';
                 $cHtrml .= sFCChatMessageStickerHtml($author_name, $sticker_url, $q->msg_id, $q->timestamp,
                     $author_id, $user_img, $author_online, 0,$user_error_img,$q->sticker->id.';'.$q->user->layers);
             } else {
@@ -755,7 +768,7 @@ function hFCGetChatMessages($info, $chat_id, $title, $bg, $cat)
         }
     }
     $myLayers = getMyLayers();
-    $user_img = $cat === 0 || $cat === null ? "http://stickerface.io/api/svg/".$myLayers : "http://face.cat/images/cats/".$cat.".png";
+    $user_img = $cat === 0 || $cat === null ? "https://stickerface.io/api/svg/".$myLayers : "https://face.cat/images/cats/".$cat.".png";
     return $cHtrml . '</div> <div class="loader" style="display: none"></div><div class="fc__msg_form">
 <div class="cats_change"  onclick="switchCat(\'' . $myLayers . '\');" >
 <img src="'.$user_img.'" id="current_cat_img"/>
@@ -803,7 +816,7 @@ function hFCGetChatMessagesAjax($info, $only_new = false)
         $author_name = htmlspecialchars($author_name);
         $author_online = isset($q->user->online) ? ($q->user->online == true ? 'icon_online' : 'icon_offline') : '';
         $author_id = isset($q->user->user_id) ? $q->user->user_id : 0;
-        $user_img = isset($q->cat->url) ? $q->cat->url : 'http://stickerface.io/api/svg/' . urlencode($q->user->layers) . '?size=76';
+        $user_img = isset($q->cat->url) ? $q->cat->url : 'https://stickerface.io/api/svg/' . urlencode($q->user->layers) . '?size=76';
         $user_error_img = isset($q->cat->url) ? 'loadFC(\''.$q->cat->url.'\',this,1);' : 'loadFC(\''.$q->user->layers.'\',this);';
 
         if (isset($q->photo)) {
@@ -811,7 +824,7 @@ function hFCGetChatMessagesAjax($info, $only_new = false)
             $cHtrml .= sFCChatMessageImageHtml($author_name, $q->photo->url, $q->photo->width, $q->photo->height,
                 $q->msg_id, $q->timestamp, $author_id, $user_img, $author_online, 0,$user_error_img);
         } else if (isset($q->sticker)) {
-            $sticker_url = 'http://stickerface.io/api/svg/s' . (($q->sticker->id)) . '%3B' . urlencode($q->user->layers) . '?size=267';
+            $sticker_url = 'https://stickerface.io/api/svg/s' . (($q->sticker->id)) . '%3B' . urlencode($q->user->layers) . '?size=267';
             // if ($only_new && $q->timestamp > $time)
             $cHtrml .= sFCChatMessageStickerHtml($author_name, $sticker_url, $q->msg_id, $q->timestamp,
                 $author_id, $user_img, $author_online, 0,$user_error_img,$q->sticker->id.';'.$q->user->layers);
@@ -840,7 +853,7 @@ function hFCGetChatMessagesAjax($info, $only_new = false)
     } else {
 
     if(!isset($info->items)) {
-        var_dump($info);
+        //var_dump($info);
         exit();
     }
         foreach ($info->items as $q) {
@@ -850,7 +863,7 @@ function hFCGetChatMessagesAjax($info, $only_new = false)
             $author_name = isset($q->user->name) ? $q->user->name : $q->cat->name;
             $author_online = isset($q->user->online) ? ($q->user->online == true ? 'icon_online' : 'icon_offline') : '';
             $author_id = isset($q->user->user_id) ? $q->user->user_id : 0;
-            $user_img = isset($q->cat->url) ? $q->cat->url : 'http://stickerface.io/api/svg/' . urlencode($q->user->layers) . '?size=76';
+            $user_img = isset($q->cat->url) ? $q->cat->url : 'https://stickerface.io/api/svg/' . urlencode($q->user->layers) . '?size=76';
             $user_error_img = isset($q->cat->url) ? 'loadFC(\''.$q->cat->url.'\',this,1);' : 'loadFC(\''.$q->user->layers.'\',this);';
 
             if (isset($q->photo)) {
@@ -858,7 +871,7 @@ function hFCGetChatMessagesAjax($info, $only_new = false)
                     $cHtrml .= sFCChatMessageImageHtml($author_name, $q->photo->url, $q->photo->width, $q->photo->height,
                         $q->msg_id, $q->timestamp, $author_id, $user_img, $author_online, 0,$user_error_img);
             } else if (isset($q->sticker)) {
-                $sticker_url = 'http://stickerface.io/api/svg/s' . (($q->sticker->id)) . '%3B' . urlencode($q->user->layers) . '?size=267';
+                $sticker_url = 'https://stickerface.io/api/svg/s' . (($q->sticker->id)) . '%3B' . urlencode($q->user->layers) . '?size=267';
                 if ($only_new && $q->timestamp >= $time)
                     $cHtrml .= sFCChatMessageStickerHtml($author_name, $sticker_url, $q->msg_id, $q->timestamp,
                         $author_id, $user_img, $author_online, 0,$user_error_img,$q->sticker->id.';'.$q->user->layers);
@@ -910,8 +923,10 @@ function getMyLayers()
 
 function sFCChatMessageHtml($author_name, $text, $msg_id, $timestamp, $aid, $user_image, $author_online, $prev_aid,$user_error_img)
 {
+    $text = htmlentities(strip_tags($text), ENT_QUOTES);
     $a_class = is_me_author($aid);
     $c_class = getColorName($aid);/*
+
     if($prev_aid == $aid){
         return <<<HTML
 <div class="message_wrap" data-oid="{$aid}" id="msg{$msg_id}">
@@ -938,6 +953,8 @@ HTML;
 function sFCChatMessageReplyHtml($author_name, $text, $msg_id, $timestamp, $aid, $user_image, $r_author_name,
                                  $r_text, $r_user_id, $author_online, $prev_aid,$user_error_img)
 {
+    $r_text = htmlentities(strip_tags($r_text), ENT_QUOTES);
+
     $a_class = is_me_author($aid);
     $c_class = getColorName($aid);
     $r_class = getColorName($r_user_id);
@@ -997,7 +1014,7 @@ HTML;
 <div class="chat_message">
 <div class="message_author {$a_class} {$c_class}"><h2>{$author_name}</h2><div class="{$author_online}"></div> </div>
 <div class="message_body">
-<a href="{$img}" class="message_img_href"><img src="{$img}" class="message_image" alt="{$author_name}"></a>
+<a href="{$img}" class="message_img_href" target="_blank"><img src="{$img}" class="message_image" alt="{$author_name}"></a>
 </div>
 </div></div>
 HTML;
@@ -1038,6 +1055,7 @@ HTML;
 
 function sFCChatMessageTpl($aid, $user_image, $a_class, $c_class, $author_name, $author_online, $content)
 {
+    $content = htmlentities(strip_tags($content));
     return <<<HTML
      <div class="message_wrap" data-oid="{$aid}">
     <img src="{$user_image}">
@@ -1120,9 +1138,9 @@ function sFCHeadMsg($title, $bg = 0, $cover = '')
 
     return <<<HTML
 <div class="fc__head_msg chat__bg{$bg}" {$cover}>
-    <div class="fc__arrow_left" onclick="window.history.back();"></div>
+    <div class="fc__arrow_left" onclick="go('facecat.php');"></div>
     <div class="fc__message_cnt_wrap" style="display:none;">
-           <span class="fc__message_cnt"></span>
+           <span class="fc__message_cnt"> </span>
            <div class="fc__message_icon" onclick="uncheckMessages();return false;"></div>
     </div>
     <h2 class="fc__chat_title">{$title}</h2>
@@ -1140,7 +1158,7 @@ function sFCProfile($img, $name, $bio, $layers)
     return <<<HTML
 <div class="profile_wrap">
     <div class="profile_bg">
-        <img class="profile_image" src="{$img}" onerror="{$img_err}"/>
+        <img class="profile_image" src="{$img}" />
      
     </div>
     <h2 class="profile_name">{$name}</h2>
@@ -1168,8 +1186,9 @@ HTML;
 
 }
 
-function sFCEditProfile($img, $name, $bio, $layers)
+function sFCEditProfile($img, $name, $bio, $layers, $new = false)
 {
+    $new_str = $new ? '&new=1' : '';
     $img_err =  "loadFC('{$layers}', this);";
     return <<<HTML
 <div class="fc__edit_wrap">
@@ -1180,9 +1199,9 @@ function sFCEditProfile($img, $name, $bio, $layers)
         </div>
         <div class="fc__make_photo"></div>
     </div>
-    <form action="facecat.php?act=save_profile" method="post" class="fc__edit_profile_form">
+    <form action="facecat.php?act=save_profile{$new_str}" method="post" class="fc__edit_profile_form">
     <label>Твой псевдоним </label>
-        <input type="text" value="{$name}" class="fc__edit_profile_name" name="p_name">
+        <input type="text" value="{$name}" class="fc__edit_profile_name" name="p_name" required>
    
     <label>Нечто сокровенное о тебе  </label>
         <textarea class="fc__edit_profile_bio" name="p_bio">{$bio}</textarea>
